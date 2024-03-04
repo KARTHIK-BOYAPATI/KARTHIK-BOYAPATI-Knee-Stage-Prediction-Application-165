@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knee Stage Prediction</title>
+    <style>
+        html, body {
+            min-height:100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #ff8080, #66b3ff);
+            text-align: center;
+            background-size: cover;
+            padding: 20px;
+        }
+
+        .logo {
+            position:absolute;
+            top: 10px;
+            right: 10px;
+            height:26px;
+        }
+        
+
+        .logo img {
+            width: 100px; /* Adjust the width as needed */
+            height: auto;
+            border-radius: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        #file-input {
+            display: block; /* Initially visible */
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #upload-text {
+            display: none;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        #predict-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .abstract-section,
+        .importance-section {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.8);
+  backdrop-filter: saturate(180%) blur(10px);
+
+        }
+
+        .heading{
+            
+          font-size: 30px;
+          color: #fff;
+          font-weight: bold;
+        
+          margin:0;
+          text-align: center;
+          
+        }
+
+        .abstract-section .content,
+        .importance-section .content {
+            max-width: 800px;
+        }
+
+        .abstract-section .image-container,
+        .importance-section .image-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .abstract-section h2,
+        .importance-section h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .abstract-section p,
+        .importance-section p {
+            color: white;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .abstract-section img,
+        .importance-section img {
+            width: 250px;
+            margin: 10px;
+            height: auto;
+            border-radius: 10px; /* Add border-radius to images */
+        }
+        .Upload-container{
+              backdrop-filter: blur(10px);
+              
+        }
+        
+
+        @media screen and (min-width: 768px) {
+            .abstract-section {
+                flex-direction: row; /* Reverse direction for large screens */
+            }
+
+            .importance-section {
+                flex-direction: row; /* Direction remains same for importance section on large screens */
+            }
+
+            .abstract-section .image-container,
+            .importance-section .image-container {
+                margin-left: 20px; /* Add margin to image container */
+                margin-right: 0;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="heading">Predict Tool For Knee Osteoarthritis(KOA)</h1>
+    </header>
+    <section class="abstract-section">
+        <div class="content">
+            <p>Knee Osteoarthritis (OA) stands as a prevalent chronic joint condition causing pain and disability globally, particularly among the elderly. With its escalating incidence, early detection and intervention become pivotal in curbing its progression and mitigating associated discomfort. Our endeavor revolves around harnessing cutting-edge predictive analytics to anticipate the onset and progression of Knee OA. Leveraging advancements in machine learning and medical imaging, our predictive model aims to scrutinize radiographic data and clinical parameters, empowering healthcare providers with preemptive insights. By amalgamating patient-specific data with predictive algorithms, our initiative aspires to revolutionize Knee OA management, facilitating timely interventions and personalized treatment strategies. Through this pursuit, we aspire to usher in an era of proactive healthcare, where the burden of Knee OA is alleviated, and individuals experience enhanced well-being and mobility.</p>
+        </div>
+        <div class="image-container">
+            <img src="https://res.cloudinary.com/dzcrtuhn5/image/upload/v1709136528/knee2_ohzyms.jpg" alt="Abstract Image">
+        </div>
+    </section>
+
+    <section class="importance-section">
+        <div class="image-container">
+            <img src="https://res.cloudinary.com/dzcrtuhn5/image/upload/v1709136521/knee1_zfymep.jpg" alt="Importance Image">
+        </div>
+        <div class="content">
+            <h2>Importance of Predicting Knee Osteoarthritis</h2>
+            <p>Anticipating Knee Osteoarthritis (OA) holds profound significance in contemporary healthcare paradigms. Firstly, early prediction allows for timely interventions, mitigating the progression of OA and averting irreversible joint damage. By identifying high-risk individuals, healthcare providers can implement tailored preventive measures, including lifestyle modifications and therapeutic interventions, thereby alleviating pain and enhancing quality of life. Secondly, predictive analytics aids in resource optimization within healthcare systems. Through targeted screening and intervention programs, healthcare resources are judiciously allocated, optimizing patient care delivery and reducing healthcare expenditures associated with OA management. Furthermore, predictive models facilitate research endeavors by identifying novel risk factors and therapeutic targets, fostering advancements in OA treatment modalities. Ultimately, the predictive assessment of Knee OA heralds a transformative shift towards proactive healthcare, where preventive strategies supersede reactive measures, engendering healthier and more resilient communities.</p>
+        </div>
+    </section>
+    <div class="Upload-container">
+        <h1>Upload X-ray Image</h1>
+    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()" id="upload-form">
+        <label for="file-input" class="custom-file-upload">
+            Choose File
+        </label>
+        <input type="file" name="file" id="file-input" accept=".jpg, .jpeg, .png" style="display:none" onchange="showImage()">
+        <p id="upload-text">Image Uploaded</p>
+        <button type="button" id="predict-btn" onclick="hideUpload()">Predict</button>
+    </form>
+
+    <!-- Display the uploaded image -->
+    <img id="uploaded-image" class="uploaded-image">
+    </div>
+    
+    <script>
+        function validateForm() {
+            var fileInput = document.getElementById('file-input');
+            if (fileInput.files.length === 0) {
+                alert('Please choose a file.');
+                return false;
+            }
+            return true;
+        }
+
+        function showImage() {
+            var fileInput = document.getElementById('file-input');
+            var uploadedImage = document.getElementById('uploaded-image');
+            var uploadText = document.getElementById('upload-text');
+            
+            if (fileInput.files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                    uploadedImage.style.display = 'block';
+                    uploadText.style.display = 'block';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        function hideUpload() {
+            var form = document.getElementById('upload-form');
+            var fileInput = document.getElementById('file-input');
+            var uploadText = document.getElementById('upload-text');
+            var predictBtn = document.getElementById('predict-btn');
+
+            fileInput.style.display = 'none';
+            uploadText.style.display = 'none';
+            predictBtn.style.display = 'none';
+
+            // Submit the form after hiding elements
+            form.submit();
+        }
+    </script>
+</body>
+</html>

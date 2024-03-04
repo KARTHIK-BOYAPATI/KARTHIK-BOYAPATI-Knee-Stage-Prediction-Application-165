@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knee Osteoarthritis(KOA) Result</title>
+    <style>
+        html,
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, #ff8080, #66b3ff);
+            background-repeat: no-repeat;
+            background-size: cover;
+            text-align: center;
+        }
+
+        .result {
+            min-width: 400px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            max-width: 600px;
+            max-height: max-content;
+
+            padding: 35px;
+
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: saturate(180%) blur(10px);
+            backdrop-filter: blur(15px);
+
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        p {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        a {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .BackToUpload {
+            margin-top: 40px;
+            font-size: 22px;
+            color: darkblue;
+            text-decoration: underline;
+            cursor: pointer;
+            width:fit-content;
+        }
+
+        .predictionStage {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            p,
+            .predictionStage {
+                font-size: 18px;
+            }
+
+            .BackToUpload {
+                font-size: 20px;
+            }
+        }
+
+        .description-section {
+            margin-top: 20px;
+        }
+
+        .description-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .description-text {
+            font-size: 18px;
+            color: pink;
+            margin-bottom: 20px;
+        }
+
+        .impression-section {
+            margin-top: 20px;
+
+        }
+
+        .impression-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .impression-text {
+            font-size: 18px;
+            color: lightblue;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="result">
+        <h1>Knee Osteoarthritis(KOA) Result</h1>
+        <p class="predictionStage">Predicted Stage: {{ predicted_label }}</p>
+        <div>
+            <img src="{{ uploaded_image_url }}" alt="Uploaded Image"/>
+        </div>
+
+        <!-- Description and Impression sections -->
+        <div class="description-section">
+            <h2 class="description-title">Description</h2>
+            <p class="description-text">
+                {% if predicted_label == 'Normal' %}
+                Normal knees typically show no signs of osteoarthritis. They have no visible joint space narrowing, osteophytes, or other signs of degenerative changes.
+                {% elif predicted_label == 'Doubtful' %}
+                Doubtful knees show very subtle signs of early osteoarthritis, such as slight joint space narrowing or minimal osteophyte formation. Further evaluation may be needed.
+                {% elif predicted_label == 'Moderate' %}
+                Moderate osteoarthritis in the knee is characterized by moderate joint space narrowing, prominent osteophytes, and mild to moderate pain and stiffness.
+                {% elif predicted_label == 'Mild' %}
+                Mild osteoarthritis in the knee typically involves mild joint space narrowing and minimal osteophyte formation. Patients may experience occasional discomfort.
+                {% elif predicted_label == 'Severe' %}
+                Severe osteoarthritis in the knee is characterized by significant joint space narrowing, large osteophytes, severe pain, stiffness, and limited range of motion.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="impression-section">
+            <h2 class="impression-title">Impression</h2>
+            <p class="impression-text">
+                {% if predicted_label == 'Normal' %}
+                No significant osteoarthritic changes detected. Recommend regular monitoring and maintenance of joint health.
+                {% elif predicted_label == 'Doubtful' %}
+                Slight signs of early osteoarthritis present. Recommend close monitoring and lifestyle modifications to prevent progression.
+                {% elif predicted_label == 'Moderate' %}
+                Moderate osteoarthritic changes present. Recommend conservative management strategies and possibly joint preservation interventions.
+                {% elif predicted_label == 'Mild' %}
+                Mild osteoarthritic changes observed. Recommend lifestyle modifications, physical therapy, and possibly pharmacological interventions for symptom management.
+                {% elif predicted_label == 'Severe' %}
+                Severe osteoarthritic changes present, significantly impacting joint function. Recommend comprehensive management plan, including surgical options for pain relief and improved function.
+                {% endif %}
+            </p>
+        </div>
+        <div><a class="BackToUpload" href="/">Back to Upload</a></div>
+        
+    </div>
+
+
+</body>
+
+</html>
